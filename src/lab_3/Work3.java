@@ -1,23 +1,26 @@
-package lab_3;
-
-/**
+package lab_3; /**
  * Created by Fima on 03.04.2017.
  */
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.PriorityQueue;
 
 public class Work3 {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("enter parameter R ");
+        double R = 0;
 
-        Double R = Double.valueOf(reader.readLine());
-
+        try {
+            while (true) {
+                R = Double.valueOf(reader.readLine());
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("mfmf");
+        }
 
         Forma forma = new Forma(R);
 
@@ -34,22 +37,17 @@ public class Work3 {
         dots.add(new Dot(5f,4f));
         dots.add(new Dot(-3f,4f));
         dots.add(new Dot(-3f,3));
-        dots.add(new Dot(1,1));
 
         for (Dot dot : dots) {
-            if (forma.Hitting(dot))
+            if (forma.hitting(dot))
                 System.out.println("dot "+dot.toString()+" hit the form");
             else
                 DoNotHit.add(dot);
         }
 
-
-
         System.out.println("dots, that did not hit the form: ");
         for (Dot dot : DoNotHit)
             System.out.println(dot);
-
-
     }
 }
 
@@ -66,19 +64,16 @@ class Dot {
     public String toString() {
        return "("+coordinateX+","+coordinateY+")";
     }
-
-
 }
 
 class Forma {
     private double R;
-    //private Dot dot;
 
     public Forma(double R) {
         this.R = Math.abs(R);
     }
 
-    public boolean Hitting(Dot dot) {
+    public boolean hitting(Dot dot) {
         if (dot.coordinateX < 0 & dot.coordinateY > 0) //2st quarter
             return false;
 
@@ -88,18 +83,12 @@ class Forma {
 
         if (dot.coordinateX >= 0 & dot.coordinateY <= 0) { //4rd quarter
             return (dot.coordinateX * dot.coordinateX) + (dot.coordinateY * dot.coordinateY) < R * R;
-
         }
 
         if (dot.coordinateX >= 0 & dot.coordinateY >= 0)  //1th quarter
-            return (dot.coordinateY <= (dot.coordinateY - R/(-R))) & (dot.coordinateX <= (dot.coordinateX/(R/2)));
+            return ((dot.coordinateY <= -2*dot.coordinateX + R) & (dot.coordinateX <= (R - dot.coordinateY)/2));
 
-        if (dot.coordinateX == 0 & dot.coordinateY == 0)
-            return true;
-        else
-            return false;
+        return dot.coordinateX == 0 & dot.coordinateY == 0;
 
     }
-
-    
 }
