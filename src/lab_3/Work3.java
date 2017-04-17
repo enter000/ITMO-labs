@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 public class Work3 {
     public static void main(String[] args) throws IOException {
-        ArrayList<Dot> dots = addList();
+        ArrayList<Dot> dots = generateTestList();
         Form form = createForm();
-        workingWithDots(dots, form);
+        checkDotsOnForm(dots, form);
     }
 
-    public static void workingWithDots(ArrayList<Dot> dots, Form form) {
+    public static void checkDotsOnForm(ArrayList<Dot> dots, Form form) {
         ArrayList<Dot> doNotHit = new ArrayList<Dot>();
 
         for (Dot dot : dots) {
-            if (form.hittingTheForm(dot)) {
+            if (form.isInForm(dot)) {
                 System.out.println("dot " + dot.toString() + " hit the form");
             } else {
                 doNotHit.add(dot);
@@ -29,7 +29,7 @@ public class Work3 {
         }
     }
 
-    public static ArrayList<Dot> addList() {
+    public static ArrayList<Dot> generateTestList() {
         ArrayList<Dot> dots = new ArrayList<Dot>(9);
 
         dots.add(new Dot(-4f, -5f));
@@ -85,18 +85,18 @@ class Form {
         this.radius = Math.abs(radius);
     }
 
-    public boolean hittingTheForm(Dot dot) {
-        if (dot.coordinateX < 0 & dot.coordinateY > 0) { //2st quarter
+    public boolean isInForm(Dot dot) {
+        if (dot.coordinateX >= 0 & dot.coordinateY >= 0) { // 1st quarter
+            return ((dot.coordinateY <= -2 * dot.coordinateX + radius) & (dot.coordinateX <= (radius - dot.coordinateY) / 2));
+        }
+        if (dot.coordinateX < 0 & dot.coordinateY > 0) { // 2nd quarter
             return false;
         }
-        if (dot.coordinateX <= 0 & dot.coordinateY <= 0) { //3nd quarter
+        if (dot.coordinateX <= 0 & dot.coordinateY <= 0) { // 3rd quarter
             return (((dot.coordinateX >= (-radius / 2)) & (dot.coordinateX <= 0))) & ((dot.coordinateY <= 0) & (dot.coordinateY >= -radius));
         }
-        if (dot.coordinateX >= 0 & dot.coordinateY <= 0) { //4rd quarter
+        if (dot.coordinateX >= 0 & dot.coordinateY <= 0) { // 4th quarter
             return (Math.pow(dot.coordinateX, 2)) + (Math.pow(dot.coordinateY, 2)) < Math.pow(radius, 2 );
-        }
-        if (dot.coordinateX >= 0 & dot.coordinateY >= 0) { //1th quarter
-            return ((dot.coordinateY <= -2 * dot.coordinateX + radius) & (dot.coordinateX <= (radius - dot.coordinateY) / 2));
         }
         return (dot.coordinateX == 0 & dot.coordinateY == 0);
     }
