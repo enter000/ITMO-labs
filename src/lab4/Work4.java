@@ -11,18 +11,12 @@ public class Work4 {
 
         JFrame frame = new JFrame("work4");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(250, 250);
+        frame.setSize(400, 250);
         frame.setVisible(true);
         frame.setResizable(true);
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
 
         JPanel panel = new JPanel(null);
-
-        DefaultListModel<Dot> listmodel = new DefaultListModel<Dot>();
-        JList<Dot> list = new JList<Dot>(listmodel);
-        list.setVisible(true);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLocation(new Point(0,50));
 
         JTextField xtextfield = new JTextField("",5);
         xtextfield.setSize(30,25);
@@ -47,8 +41,10 @@ public class Work4 {
         ylabel.setLocation(new Point(0,31));
         panel.add(ylabel);
 
-        JButton addnewpointbutton = new JButton("add point");
-        addnewpointbutton.setSize(new Dimension(80,20));
+        DefaultListModel<Dot> listmodel = new DefaultListModel<Dot>();
+
+        JButton addnewpointbutton = new JButton("add dot to the list");
+        addnewpointbutton.setSize(new Dimension(120,20));
         addnewpointbutton.setLocation(new Point(100,20));
         addnewpointbutton.addActionListener(new ActionListener() {
             @Override
@@ -78,6 +74,32 @@ public class Work4 {
             }
         });
         panel.add(addnewpointbutton);
+
+        JList<Dot> list = new JList<Dot>(listmodel);
+        list.setVisible(true);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLocation(new Point(235,25));
+        list.setSize(new Dimension(80,25));
+        list.add(new Scrollbar(Scrollbar.VERTICAL));
+
+        SpinnerModel spinnermodel = new SpinnerNumberModel(0,0,20,1);
+        JSpinner radiusspinner = new JSpinner(spinnermodel);
+        radiusspinner.setLocation(new Point(60,65));
+        radiusspinner.setVisible(true);
+        radiusspinner.setSize(new Dimension(50,25));
+        panel.add(radiusspinner);
+
+        JLabel radiuslabel = new JLabel("set radius");
+        radiuslabel.setOpaque(false);
+        radiuslabel.setSize(80,25);
+        radiuslabel.setLocation(new Point(0,65));
+        panel.add(radiuslabel);
+
+        JLabel listlabel = new JLabel("dot list");
+        listlabel.setOpaque(false);
+        listlabel.setLocation(new Point(250,5));
+        listlabel.setSize(new Dimension(50,10));
+        panel.add(listlabel);
 
         panel.add(list);
 
